@@ -82,34 +82,76 @@ class Lab1App extends StatelessWidget {
 // 1. Заголовок — Text, крупный жирный текст чёрного цвета, обрезается в одну строку, если не помещается.
 Widget task1() {
   // TODO: замените Placeholder на Text()
-  return Placeholder(fallbackHeight: 24);
+  return Text(
+    'Пример очень очень длинного текста в одну строчку для домашней работы, который точно будет обрезаться в одну строчку согласно указаниям в задании.......................',
+    maxLines: 1,
+    overflow: TextOverflow.ellipsis,
+    style: TextStyle(
+      fontSize: 48,
+      fontWeight: FontWeight.bold,
+      color: Colors.black
+    )
+  );
 }
 
 // 2. Подпись — небольшой, нежирный курсивный текст белого цвета, обрезается в две строки.
 // Также реализуйте подложку из тёмно-серого контейнера с закруглениями, чтобы текст было видно
 Widget task2() {
   // TODO: замените Placeholder на ...
-  return Placeholder(fallbackHeight: 24);
+  return Container(
+    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+    decoration: BoxDecoration(
+      color: Color.fromARGB(255, 147, 134, 125)
+      //borderRadius: BorderRadius.circular(10),
+    ),
+    child: Text(
+      'Hello world (120 times), ' * 120,
+      maxLines: 2,
+      overflow: TextOverflow.ellipsis,
+      style: TextStyle(
+        fontSize: 20,
+        fontWeight: FontWeight.normal,
+        fontStyle: FontStyle.italic,
+        color: Colors.white
+      )
+    )
+  );
 }
 
 // 3. Иконка — любая Icon на ваш вкус,
 // с применением цвета и размером.
 Widget task3() {
   // TODO: замените Placeholder на...
-  return Placeholder(fallbackHeight: 32, fallbackWidth: 32);
+  return Icon(
+    Icons.add_a_photo_rounded,
+    color: Colors.amberAccent,
+    size: 64
+  );
 }
 
 // 4. Кнопка с иконкой избранного — большая иконка сердца красного цвета без фона.
 // При нажатии пишет в консоль "Вы добавили в избранное"
 Widget task4() {
   // TODO: замените Placeholder на ...
-  return Placeholder(fallbackHeight: 32, fallbackWidth: 32);
+  return IconButton(
+    iconSize: 64,
+    color: Colors.redAccent,
+    icon: Icon(Icons.favorite),
+    onPressed: () {
+      print("Вы добавили в избранное.");
+    }, 
+  );
 }
 
 // 5. Кнопка «Подробнее» — кнопка с текстом и обводкой, при нажатии пишет в консоль "Узнать детали"
 Widget task5() {
   // TODO: замените Placeholder на ...
-  return Placeholder(fallbackHeight: 32, fallbackWidth: 32);
+  return OutlinedButton(
+    onPressed: () {
+      print("Узнать детали.");
+    },
+    child: Text("Подробнее")
+  );
 }
 
 // 6. Изображение в стиле Polaroid—  выберите любое из каталога по ссылке
@@ -118,5 +160,23 @@ Widget task5() {
 // Для реализации используйте Container
 Widget task6() {
   // TODO: замените Placeholder на Container()
-  return Placeholder(fallbackHeight: 32, fallbackWidth: 32);
+  return Container(
+    padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+    decoration: BoxDecoration(
+      color: Colors.white,
+      border: Border.all(color: Colors.black),
+    ),
+    child: Image.network(
+      "https://fastly.picsum.photos/id/57/2448/3264.jpg?hmac=ewraXYesC6HuSEAJsg3Q80bXd1GyJTxekI05Xt9YjfQ",
+      width: 250,
+      height: 150,
+      fit: BoxFit.cover,
+      errorBuilder: (context, error, stackTrace) => Container(
+        color: Colors.grey,
+         width: 250,
+         height: 150,
+        child: Icon(Icons.broken_image_outlined, color: Colors.black),
+      ),
+    )
+  );
 }
