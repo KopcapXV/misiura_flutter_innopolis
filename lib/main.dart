@@ -1,77 +1,174 @@
-// ЛР 1 — шесть независимых виджетов.
-//
-// Как сдавать: скопируйте этот файл целиком себе в main.dart, допишите
-// шесть функций ниже вместо TODO, запустите — все шесть элементов должны
-// появиться на экране. Пришлите готовый файл на проверку.
-//
-// Основной виджет трогать не нужно. Редактируйте там, где написано TODO.
-
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const Lab1App());
+  runApp(const SpaceCatalogApp());
 }
 
-class Lab1App extends StatelessWidget {
-  const Lab1App({super.key});
+class SpaceMissionItem {
+  final String title;
+  final String agencyAndYear;
+  final List<String> tags;
+  final Color coverColor;
+  final bool isFavorite;
+  final String? assetPath;
+
+  const SpaceMissionItem({
+    required this.title,
+    required this.agencyAndYear,
+    required this.tags,
+    required this.coverColor,
+    required this.isFavorite,
+    this.assetPath,
+  });
+}
+
+class SpaceCatalogApp extends StatelessWidget {
+  const SpaceCatalogApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(title: const Text('ЛР 1')),
-        body: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Task 1:',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              ),
-              task1(),
-              const SizedBox(height: 4),
-              Divider(),
-              const SizedBox(height: 4),
-              Text(
-                'Task 2:',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              ),
-              task2(),
+      debugShowCheckedModeBanner: false,
+      title: 'Космический каталог',
+      theme: ThemeData(
+        scaffoldBackgroundColor: const Color(0xFFF3F5F9),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.black87,
+          elevation: 0.5,
+          centerTitle: false,
+        ),
+      ),
+      home: const CatalogScreen(),
+    );
+  }
+}
 
-              const SizedBox(height: 4),
-              Divider(),
-              const SizedBox(height: 4),
-              Text(
-                'Task 3:',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+class CatalogScreen extends StatelessWidget {
+  const CatalogScreen({super.key});
+
+  final List<SpaceMissionItem> missions = const [
+    SpaceMissionItem(
+      title: 'Джеймс Уэбб (JWST)',
+      agencyAndYear: 'NASA / ESA / CSA · 2021',
+      tags: ['Телескоп', 'Инфракрасный'],
+      coverColor: Color(0xFF23395B),
+      isFavorite: true,
+      assetPath: 'assets/images/webb.jpg',
+    ),
+
+    SpaceMissionItem(
+      title: 'Марсоход Perseverance и вертолёт Ingenuity',
+      agencyAndYear: 'NASA · 2020',
+      tags: ['Марс', 'Астробиология'],
+      coverColor: Color(0xFFB84A39),
+      isFavorite: true,
+      assetPath: 'assets/images/mars.jpg',
+    ),
+
+    SpaceMissionItem(
+      title: 'Международная космическая станция (МКС)',
+      agencyAndYear: 'Роскосмос / NASA / ESA · 1998',
+      tags: ['Пилотируемая', 'Орбита'],
+      coverColor: Color(0xFF1D5A6C),
+      isFavorite: true,
+      assetPath: 'assets/images/iss.jpg',
+    ),
+
+    SpaceMissionItem(
+      title: 'Вояджер-1',
+      agencyAndYear: 'Межзвёздная миссия NASA · 1977',
+      tags: ['Дальний космос', 'Зонд'],
+      coverColor: Color(0xFF4A4E69),
+      isFavorite: false,
+    ),
+
+    SpaceMissionItem(
+      title: 'Космический телескоп «Хаббл»',
+      agencyAndYear: 'NASA / ESA · 1990',
+      tags: ['Телескоп', 'Астрофизика'],
+      coverColor: Color(0xFF22577A),
+      isFavorite: false,
+    ),
+
+    SpaceMissionItem(
+      title: 'Кассини-Гюйгенс',
+      agencyAndYear: 'NASA / ESA / ASI · 1997',
+      tags: ['Сатурн', 'Исследования'],
+      coverColor: Color(0xFF9C6644),
+      isFavorite: true,
+    ),
+
+    SpaceMissionItem(
+      title: 'Аполлон-11',
+      agencyAndYear: 'Историческая высадка на Луну · 1969',
+      tags: ['Луна', 'Пилотируемая'],
+      coverColor: Color(0xFF5C677D),
+      isFavorite: false,
+    ),
+
+    SpaceMissionItem(
+      title: 'Новые горизонты (New Horizons)',
+      agencyAndYear: 'NASA · 2006',
+      tags: ['Плутон', 'Пояс Койпера'],
+      coverColor: Color(0xFF5B3758),
+      isFavorite: false,
+    ),
+    
+    SpaceMissionItem(
+      title: 'Паркер (Parker Solar Probe)',
+      agencyAndYear: 'NASA · 2018',
+      tags: ['Солнце', 'Гелиосфера'],
+      coverColor: Color(0xFFC77D18),
+      isFavorite: true,
+    ),
+
+    SpaceMissionItem(
+      title: 'Чанъэ-5 (Chang\'e 5)',
+      agencyAndYear: 'CNSA · 2020',
+      tags: ['Луна', 'Доставка грунта'],
+      coverColor: Color(0xFF2E6565),
+      isFavorite: false,
+    )
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Космические миссии',
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
               ),
-              task3(),
-              const SizedBox(height: 4),
-              Divider(),
-              const SizedBox(height: 4),
-              Text(
-                'Task 4:',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            Text(
+              '${missions.length} артиклей в каталоге',
+              style: TextStyle(
+                fontSize: 13,
+                color: Colors.grey.shade600,
+                fontWeight: FontWeight.normal,
               ),
-              task4(),
-              const SizedBox(height: 4),
-              Divider(),
-              const SizedBox(height: 4),
-              Text(
-                'Task 5:',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              ),
-              task5(),
-              const SizedBox(height: 4),
-              Divider(),
-              const SizedBox(height: 4),
-              Text(
-                'Task 6:',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              ),
-              task6(),
-            ],
+            ),
+          ],
+        ),
+      ),
+
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 600),
+          child: ListView.separated(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+            itemCount: missions.length,
+            separatorBuilder: (context, index) => const SizedBox(height: 12),
+            itemBuilder: (context, index) {
+              return SpaceCard(mission: missions[index]);
+            },
           ),
         ),
       ),
@@ -79,104 +176,162 @@ class Lab1App extends StatelessWidget {
   }
 }
 
-// 1. Заголовок — Text, крупный жирный текст чёрного цвета, обрезается в одну строку, если не помещается.
-Widget task1() {
-  // TODO: замените Placeholder на Text()
-  return Text(
-    'Пример очень очень длинного текста в одну строчку для домашней работы, который точно будет обрезаться в одну строчку согласно указаниям в задании.......................',
-    maxLines: 1,
-    overflow: TextOverflow.ellipsis,
-    style: TextStyle(
-      fontSize: 48,
-      fontWeight: FontWeight.bold,
-      color: Colors.black
-    )
-  );
-}
+class SpaceCard extends StatelessWidget {
+  final SpaceMissionItem mission;
 
-// 2. Подпись — небольшой, нежирный курсивный текст белого цвета, обрезается в две строки.
-// Также реализуйте подложку из тёмно-серого контейнера с закруглениями, чтобы текст было видно
-Widget task2() {
-  // TODO: замените Placeholder на ...
-  return Container(
-    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-    decoration: BoxDecoration(
-      color: Color.fromARGB(255, 147, 134, 125)
-      //borderRadius: BorderRadius.circular(10),
-    ),
-    child: Text(
-      'Hello world (120 times), ' * 120,
-      maxLines: 2,
-      overflow: TextOverflow.ellipsis,
-      style: TextStyle(
-        fontSize: 20,
-        fontWeight: FontWeight.normal,
-        fontStyle: FontStyle.italic,
-        color: Colors.white
-      )
-    )
-  );
-}
+  const SpaceCard({super.key, required this.mission});
 
-// 3. Иконка — любая Icon на ваш вкус,
-// с применением цвета и размером.
-Widget task3() {
-  // TODO: замените Placeholder на...
-  return Icon(
-    Icons.add_a_photo_rounded,
-    color: Colors.amberAccent,
-    size: 64
-  );
-}
-
-// 4. Кнопка с иконкой избранного — большая иконка сердца красного цвета без фона.
-// При нажатии пишет в консоль "Вы добавили в избранное"
-Widget task4() {
-  // TODO: замените Placeholder на ...
-  return IconButton(
-    iconSize: 64,
-    color: Colors.redAccent,
-    icon: Icon(Icons.favorite),
-    onPressed: () {
-      print("Вы добавили в избранное.");
-    }, 
-  );
-}
-
-// 5. Кнопка «Подробнее» — кнопка с текстом и обводкой, при нажатии пишет в консоль "Узнать детали"
-Widget task5() {
-  // TODO: замените Placeholder на ...
-  return OutlinedButton(
-    onPressed: () {
-      print("Узнать детали.");
-    },
-    child: Text("Подробнее")
-  );
-}
-
-// 6. Изображение в стиле Polaroid—  выберите любое из каталога по ссылке
-// https://picsum.photos/ (необходим vpn), либо используйте https://docs.flutter.dev/assets/images/dash/dash-fainting.gif
-// Добавьте чёрную обводку, а внутри белую рамку в стиле фотографии Polaroid (https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAeKRHzUEOMCX836O6p8R5-XBkrSlf8C4go4C7f1q8ClnmlFaV9emSrUFL&s=10)
-// Для реализации используйте Container
-Widget task6() {
-  // TODO: замените Placeholder на Container()
-  return Container(
-    padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-    decoration: BoxDecoration(
-      color: Colors.white,
-      border: Border.all(color: Colors.black),
-    ),
-    child: Image.network(
-      "https://fastly.picsum.photos/id/57/2448/3264.jpg?hmac=ewraXYesC6HuSEAJsg3Q80bXd1GyJTxekI05Xt9YjfQ",
-      width: 250,
-      height: 150,
-      fit: BoxFit.cover,
-      errorBuilder: (context, error, stackTrace) => Container(
-        color: Colors.grey,
-         width: 250,
-         height: 150,
-        child: Icon(Icons.broken_image_outlined, color: Colors.black),
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.04),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
-    )
-  );
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildCover(),
+
+          const SizedBox(width: 14),
+
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  mission.title,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF1E212D),
+                    height: 1.25,
+                  ),
+                ),
+                const SizedBox(height: 5),
+                Text(
+                  mission.agencyAndYear,
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: Colors.grey.shade600,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Wrap(
+                  spacing: 6,
+                  runSpacing: 4,
+                  children: mission.tags.map((tag) => _buildTag(tag)).toList(),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCover() {
+    final String firstLetter =
+        mission.title.isNotEmpty ? mission.title[0].toUpperCase() : '';
+
+    return SizedBox(
+      width: 82,
+      height: 98,
+      child: Stack(
+        children: [
+          Positioned.fill(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(14),
+              child: mission.assetPath != null
+                  ? Stack(
+                      fit: StackFit.expand,
+                      children: [
+                        Image.asset(
+                          mission.assetPath!,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) =>
+                              Container(color: mission.coverColor),
+                        ),
+                        Container(color: Colors.black.withOpacity(0.28)),
+                      ],
+                    )
+                  : Container(color: mission.coverColor),
+            ),
+          ),
+
+
+          Center(
+            child: Text(
+              firstLetter,
+              style: TextStyle(
+                fontSize: 42,
+                fontWeight: FontWeight.bold,
+                color: Colors.white.withOpacity(0.85),
+                shadows: const [
+                  Shadow(
+                    color: Colors.black54,
+                    blurRadius: 8,
+                    offset: Offset(0, 2),
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+          Positioned(
+            top: 6,
+            right: 6,
+            child: Container(
+              width: 26,
+              height: 26,
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black26,
+                    blurRadius: 4,
+                    offset: Offset(0, 1),
+                  ),
+                ],
+              ),
+              child: Icon(
+                mission.isFavorite ? Icons.favorite : Icons.favorite_border,
+                size: 15,
+                color: mission.isFavorite ? Colors.red : Colors.grey.shade600,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTag(String text) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+      decoration: BoxDecoration(
+        color: const Color(0xFFEBF1F6),
+        borderRadius: BorderRadius.circular(6),
+      ),
+      child: Text(
+        text,
+        style: const TextStyle(
+          fontSize: 11,
+          fontWeight: FontWeight.w600,
+          color: Color(0xFF2B4C6F),
+        ),
+      ),
+    );
+  }
 }
